@@ -1,10 +1,16 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const Hamster = require("./models/hamster.model.js");
+const hamsterRouter = require("./routes/hamster.route.js");
 const app = express(); // contains middlewares
 const PORT = 8080;
 
+//middlewares: code that runs between request and response
+app.use(logger); //custom middleware/logger. Order matters
 app.use(express.json()); //apply middleware to parse json: every request will be parsed as json
+app.use(express.urlencoded({ extended: true })); //apply middleware to parse urlencoded data
+app.use("/api/hamsters", hamsterRouter);
+
 //add password and collection name
 mongoose
   .connect(
@@ -25,25 +31,11 @@ mongoose
  * 2. handler function (callback): run when the route is requested
  * GET http://localhost:8080/hamster
  */
-app.get("/hamster", (req, res) => {
+app.get("/api/test", logger, (req, res) => {
   res.status(200).send({ name: "Hamtaro", id: "002", animal: "🐹" }); // sent from node API
 });
 
-//http://localhost:8080/hamster/1 with body {"name": "Hamtaro"}
-app.post("/api/hamsters/:id", async (req, res) => {
-  const { id } = req.params;
-  const { name } = req.body;
-
-  if (!name) {
-    res.status(400).send({ error: "Name is required" });
-  }
-
-  //save to database
-  try {
-    const hamster = await Hamster.create(req.body);
-    res.status(200).send(hamster);
-  } catch (err) {
-    res.status(500).send({ error: error.message });
-  }
-});
-
+function logger(req, res, next) {
+  console.log(`Request: ${req.method} ${req.originalUrl}`);
+  next(); // call the next middleware
+}
