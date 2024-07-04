@@ -30,7 +30,7 @@ app.get("/hamster", (req, res) => {
 });
 
 //http://localhost:8080/hamster/1 with body {"name": "Hamtaro"}
-app.post("/api/hamsters/:id", (req, res) => {
+app.post("/api/hamsters/:id", async (req, res) => {
   const { id } = req.params;
   const { name } = req.body;
 
@@ -40,13 +40,10 @@ app.post("/api/hamsters/:id", (req, res) => {
 
   //save to database
   try {
-    const hamster = new Hamster({ name, id });
-    hamster.save();
+    const hamster = await Hamster.create(req.body);
+    res.status(200).send(hamster);
   } catch (err) {
     res.status(500).send({ error: error.message });
   }
-  res.status(200).send({ name: `${name}`, id: `${id}`, animal: "🐹" });
 });
 
-
-//https://youtu.be/_7UQPve99r4?t=2480
