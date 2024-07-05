@@ -2,13 +2,15 @@ const express = require("express");
 const mongoose = require("mongoose");
 const Hamster = require("./models/hamster.model.js");
 const hamsterRouter = require("./routes/hamster.route.js");
-const app = express(); // contains middlewares
+const app = express(); // server creation. It contains middlewares
 const PORT = 8080;
 
+app.set("view engine", "ejs"); //set up view engine /pug
 //middlewares: code that runs between request and response
 app.use(logger); //custom middleware/logger. Order matters
 app.use(express.json()); //apply middleware to parse json: every request will be parsed as json
 app.use(express.urlencoded({ extended: true })); //apply middleware to parse urlencoded data
+app.use(express.static("public")); //apply middleware to serve static files
 app.use("/api/hamsters", hamsterRouter);
 
 //add password and collection name
@@ -32,7 +34,8 @@ mongoose
  * GET http://localhost:8080/hamster
  */
 app.get("/api/test", logger, (req, res) => {
-  res.status(200).send({ name: "Hamtaro", id: "002", animal: "🐹" }); // sent from node API
+  // res.status(200).send({ name: "Hamtaro", id: "002", animal: "🐹" }); // sent from node API
+  res.render("index", { todaysDate: "monday" });
 });
 
 function logger(req, res, next) {

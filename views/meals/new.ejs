@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Meal Details Form</title>
+  </head>
+  <body>
+    <header>
+      <h1>Meal Details Form</h1>
+    </header>
+
+    <main>
+      <form action="/api/hamsters" method="post">
+        <!-- Meal Details Section -->
+        <fieldset>
+          <legend>Name</legend>
+
+          <label for="name">Meal Name:</label>
+          <input type="text" id="name" name="name" required /><br /><br />
+        </fieldset>
+
+        <fieldset>
+          <legend>Id</legend>
+
+          <label for="id">Meal Name:</label>
+          <input type="number" id="id" name="id" /><br /><br />
+        </fieldset>
+
+        <button type="submit">Submit Meal Details</button>
+      </form>
+    </main>
+
+    <footer>
+      <p>&copy; 2024 Meal Prep Service. All rights reserved.</p>
+    </footer>
+  </body>
+</html>

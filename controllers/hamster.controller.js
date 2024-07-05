@@ -1,5 +1,8 @@
 const Hamster = require("../models/hamster.model");
 
+const getNew = async (req, res) => {
+  res.render("/meals/new");
+};
 const getHamsters = async (req, res) => {
   try {
     const hamsters = await Hamster.find();
@@ -64,4 +67,5 @@ module.exports = {
   postHamster,
   putHamster,
   deleteHamster,
+  getNew,
 };
